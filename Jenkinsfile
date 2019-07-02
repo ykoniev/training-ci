@@ -11,7 +11,7 @@ pipeline {
         sh 'echo \'echo step\''
       }
     }
-    stage('error') {
+    stage('git checkout') {
       steps {
         git(url: 'https://github.com/ykoniev/training-ci', branch: 'master', credentialsId: '1a28fc22-8d41-479c-9abd-d44db5fadfad	', poll: true)
       }
