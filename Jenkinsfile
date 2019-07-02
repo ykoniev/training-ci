@@ -13,7 +13,7 @@ pipeline {
     }
     stage('git checkout') {
       steps {
-        git(url: 'https://github.com/ykoniev/training-ci', branch: 'master', credentialsId: '1a28fc22-8d41-479c-9abd-d44db5fadfad	', poll: true)
+        git(url: 'https://github.com/ykoniev/training-ci', branch: 'master', credentialsId: '4fd64049-9b54-4d9c-af81-2ecc43955fb6', poll: true)
       }
     }
     stage('start app') {
