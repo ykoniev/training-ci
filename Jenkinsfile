@@ -1,7 +1,7 @@
 pipeline {
   agent {
     node {
-      label 'Training project'
+      label 'training-ci'
     }
 
   }
