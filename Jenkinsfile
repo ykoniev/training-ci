@@ -22,5 +22,13 @@ pipeline {
 docker-compose up -d --build'''
       }
     }
+    stage('Change Current Dir') {
+      steps {
+        sh '''docker-compose down
+docker-compose build flask-app
+docker-compose run flask-app pytest -v
+docker-compose down'''
+      }
+    }
   }
 }
