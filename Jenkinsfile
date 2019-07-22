@@ -37,5 +37,10 @@ docker-compose down'''
 sudo rm -rf flask-app/junit-report'''
       }
     }
+    stage('Clean up') {
+      steps {
+        sh 'sudo rm -rf flask-app/junit-report'
+      }
+    }
   }
 }
