@@ -31,10 +31,8 @@ docker-compose run flask-app pytest -v --junit-xml=/var/opt/junit-report/report.
 docker-compose down'''
       }
     }
-    stage('Archive JUnit-formatted test results') {
+    stage('Archive results') {
       steps {
-        sh '''
-sudo rm -rf flask-app/junit-report'''
         junit(testResults: 'flask-app/junit-report/report.xml', allowEmptyResults: true)
       }
     }
