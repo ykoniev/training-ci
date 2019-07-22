@@ -1,0 +1,49 @@
+pipeline {
+  agent {
+    node {
+      label 'slave'
+    }
+    environment {
+    giturl = 'https://github.com/ykoniev/training-ci'
+    credentialsId = '4fd64049-9b54-4d9c-af81-2ecc43955fb6'
+  }
+    options {
+    parallelsAlwaysFailFast()
+  }
+  }
+  stages {
+    stage('Echo text') {
+      steps {
+        sh 'echo "Hello, Jenkins"'
+      }
+    }
+    stage('Git checkout') {
+      steps {
+        git(url: $giturl, branch: 'master', credentialsId: $credentialsId)
+      }
+    }
+    stage('Parallel') {
+      parallel {
+        failFast true
+        stage('Run Tests') {
+          steps {
+            dir(path: 'flask-app') {
+              sh '''docker-compose down
+                docker-compose build flask-app
+                docker-compose run flask-app pytest -v --junit-xml=/var/opt/junit-report/report.xml
+                docker-compose down
+                '''
+              junit(testResults: 'junit-report/report.xml', allowEmptyResults: true)
+              sh 'sudo rm -rf junit-report'
+            }
+          }
+        }
+        stage('Run Dummy tests') {
+          steps {
+            echo "Let's pretend that I'm running some tests..."
+          }
+        }
+      }
+    }
+  }
+}
