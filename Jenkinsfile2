@@ -5,8 +5,8 @@ pipeline {
     }
   }
   environment {
-    giturl = 'https://github.com/ykoniev/training-ci'
-    credentialsId = '4fd64049-9b54-4d9c-af81-2ecc43955fb6'
+    GIT_URL = 'https://github.com/ykoniev/training-ci'
+    CREDENTIALS_ID = '4fd64049-9b54-4d9c-af81-2ecc43955fb6'
   }
   options {
     parallelsAlwaysFailFast()
@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Git checkout') {
       steps {
-        git(url: 'https://github.com/ykoniev/training-ci', branch: 'master', credentialsId: '4fd64049-9b54-4d9c-af81-2ecc43955fb6')
+        git(url: GIT_URL, branch: 'master', credentialsId: CREDENTIALS_ID)
       }
     }
     stage('Parallel') {
@@ -32,8 +32,6 @@ pipeline {
                 docker-compose run flask-app pytest -v --junit-xml=/var/opt/junit-report/report.xml
                 docker-compose down
                 '''
-              junit(testResults: 'junit-report/report.xml', allowEmptyResults: true)
-              sh 'sudo rm -rf junit-report'
             }
           }
         }
@@ -49,7 +47,7 @@ pipeline {
     success {
       junit 'flask-app/junit-report/report.xml'
     }
-    always {
+    cleanup {
         sh 'sudo rm -rf flask-app/junit-report'
         cleanWs()
     }
