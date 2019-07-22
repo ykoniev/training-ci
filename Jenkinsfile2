@@ -3,13 +3,13 @@ pipeline {
     node {
       label 'slave'
     }
-    environment {
+  }
+  environment {
     giturl = 'https://github.com/ykoniev/training-ci'
     credentialsId = '4fd64049-9b54-4d9c-af81-2ecc43955fb6'
   }
-    options {
+  options {
     parallelsAlwaysFailFast()
-  }
   }
   stages {
     stage('Echo text') {
