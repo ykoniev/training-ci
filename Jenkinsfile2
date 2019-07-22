@@ -45,4 +45,13 @@ pipeline {
       }
     }
   }
+  post {
+    success {
+      junit 'flask-app/junit-report/report.xml'
+    }
+    always {
+        sh 'sudo rm -rf flask-app/junit-report'
+        cleanWs()
+    }
+  }
 }
