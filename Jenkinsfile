@@ -35,6 +35,7 @@ docker-compose down'''
       steps {
         sh '''
 sudo rm -rf flask-app/junit-report'''
+        junit(testResults: 'flask-app/junit-report/report.xml', allowEmptyResults: true)
       }
     }
     stage('Clean up') {
