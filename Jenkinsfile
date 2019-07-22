@@ -27,8 +27,14 @@ docker-compose up -d --build'''
         sh '''cd flask-app;
 docker-compose down
 docker-compose build flask-app
-docker-compose run flask-app pytest -v
+docker-compose run flask-app pytest -v --junit-xml=/var/opt/junit-report/report.xml
 docker-compose down'''
+      }
+    }
+    stage('Archive JUnit-formatted test results') {
+      steps {
+        sh '''cd flask-app/junit-report/report.xml
+sudo rm -rf flask-app/junit-report'''
       }
     }
   }
