@@ -23,8 +23,7 @@ pipeline {
       }
     }
     stage('Parallel') {
-      parallel {
-        failFast true
+      parallel(failFast: true) {
         stage('Run Tests') {
           steps {
             dir(path: 'flask-app') {
